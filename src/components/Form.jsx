@@ -1,14 +1,23 @@
 import { useState } from "react";
 
-function Form({ addItem }) {
+function Form({ onAddItem }) {
   const [title, setTitle] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (title.trim()) {
-      addItem(title);
-      setTitle("");
-    }
+
+    if (!title) return;
+
+    const newItem = {
+      id: Date.now(),
+      title,
+      checked: false,
+    };
+
+    onAddItem(newItem);
+
+    setTitle("");
+    console.log(e);
   };
 
   return (
@@ -20,6 +29,7 @@ function Form({ addItem }) {
         id=""
         value={title}
         onChange={(e) => {
+          // console.log(e);
           setTitle(e.target.value);
         }}
       />

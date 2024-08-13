@@ -1,59 +1,58 @@
 import { useState } from "react";
+
 import Logo from "./components/Logo";
 import Form from "./components/Form";
 import CheckList from "./components/CheckList";
 import Stats from "./components/Stats";
+
 import "./App.css";
 
-const initialItems = [
-  {
-    id: 1,
-    title: "Coding",
-    checked: false,
-  },
-  {
-    id: 2,
-    title: "Sleep",
-    checked: true,
-  },
-];
-
-// Function Stats
-
 function App() {
-  const [items, setItems] = useState(initialItems);
+  const [listItems, setListItems] = useState([]);
 
-  const addItem = (title) => {
-    const newItem = {
-      id: items.length + 1,
-      title,
-      checked: false,
-    };
-    setItems([...items, newItem]);
-  };
+  function handleAddItem(item) {
+    setListItems((listItems) => [...listItems, item]);
+  }
 
-  const toggleCheck = (id) => {
-    setItems(
-      items.map((item) =>
-        item.id === id ? { ...item, checked: !item.checked } : item
-      )
-    );
-  };
+  function handleDeleteItem(id) {
+    setListItems((listItems) => listItems.filter((item) => item.id !== id));
+  }
 
-  const removeItem = (id) => {
-    setItems(items.filter((item) => item.id !== id));
-  };
+  function handleToggleItem(id) {
+    setListItems((listItems) => {
+      return listItems.map((item) => {
+        if (item.id === id) {
+          return { ...item, checked: !item.checked };
+        }
+        return item;
+      });
+    });
+  }
+
+  function handleClearItems() {
+    const confirm = window.confirm("Are you sure you want to clear the list?");
+    if (confirm) {
+      setListItems([]);
+    }
+  }
 
   return (
     <div className="app">
       <Logo />
-      <Form addItem={addItem} />
+      <Form onAddItem={handleAddItem} />
       <CheckList
-        items={items}
-        toggleCheck={toggleCheck}
-        removeItem={removeItem}
+        items={listItems}
+        onDeleteItem={handleDeleteItem}
+        onToggleItem={handleToggleItem}
+        onClearItems={handleClearItems}
       />
-      <Stats items={items} />
+      <Stats items={listItems} />
+      <p style={{ textAlign: "center", color: "#414141", fontSize: "1.4rem" }}>
+        Copyright&copy; 2024 Guntur Alamsyah{" "}
+        <a href="https://github.com/Cramouchegit" style={{ color: "#6096b4" }}>
+          Putra
+        </a>
+      </p>
     </div>
   );
 }

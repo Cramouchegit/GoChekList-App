@@ -1,15 +1,21 @@
 function Stats({ items }) {
+  if (items.length === 0) {
+    return (
+      <footer className="stats">
+        <span>📝 Yuk mulai bikin catatan</span>
+      </footer>
+    );
+  }
+
   const totalItems = items.length;
   const checkedItems = items.filter((item) => item.checked).length;
-  const checkedPercentage = totalItems
-    ? Math.round((checkedItems / totalItems) * 100)
-    : 0;
-
+  const percentage = Math.round((checkedItems / totalItems) * 100);
   return (
     <footer className="stats">
       <span>
-        📃 Kamu punya {totalItems} catatan dan baru {checkedItems} yang
-        dichecklist ({checkedPercentage}%) ✅
+        {percentage === 100
+          ? "Kamu sudah melakukannya semua ✅"
+          : `📃 Kamu Punya ${totalItems} catatan dan baru ${checkedItems} yg dicheklist (${percentage}%)`}
       </span>
     </footer>
   );

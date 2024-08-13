@@ -1,15 +1,15 @@
-function Item({ item, toggleCheck, removeItem }) {
+function Item({ item, onDeleteItem, onToggleItem }) {
   return (
     <li>
       <input
         type="checkbox"
-        checked={item.checked}
-        onChange={() => toggleCheck(item.id)}
+        value={item.checked}
+        onChange={() => onToggleItem(item.id)}
       />
-      <span style={{ textDecoration: item.checked ? "line-through" : "none" }}>
+      <span style={{ textDecoration: item.checked ? "line-through" : "" }}>
         {item.title}
       </span>
-      <button onClick={() => removeItem(item.id)}>❌</button>
+      <button onClick={() => onDeleteItem(item.id)}>❌</button>
     </li>
   );
 }
